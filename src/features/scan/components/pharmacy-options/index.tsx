@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import type { FC } from 'react';
 
-import { Select } from 'antd';
+import { Button, Select } from 'antd';
 
 import { useLocalStorage } from '@uidotdev/usehooks';
 
@@ -11,18 +11,23 @@ import {
   SELECTED_PHARMACY_PROTOCOL_STORAGE_KEY,
   SELECTED_PHARMACY_STEP_STORAGE_KEY,
 } from './constants';
-import { Field, Label, Row } from './styles';
-import type { PolicySelectorProps, ProtocolType, StepType } from './types';
+import { Field, Grid, Label } from './styles';
+import type { PharmacyProtocol, PharmacyStep } from './types';
 
-export const PolicySelector: FC<PolicySelectorProps> = ({ onChange }) => {
-  const [protocol, setProtocol] = useLocalStorage<ProtocolType>(
+export const PharmacyOptions: FC = () => {
+  const [protocol, setProtocol] = useLocalStorage<PharmacyProtocol | null>(
     SELECTED_PHARMACY_PROTOCOL_STORAGE_KEY,
     null
   );
 
-  const [step, setStep] = useLocalStorage<StepType>(
+  const [step, setStep] = useLocalStorage<PharmacyStep | null>(
     SELECTED_PHARMACY_STEP_STORAGE_KEY,
     null
+  );
+
+  const [_, setPharmacyOptionsConfirmed] = useLocalStorage<boolean>(
+    SELECTED_PHARMACY_OPTIONS_CONFIRMED_STORAGE_KEY,
+    false
   );
 
   const protocolOptions = useMemo(
@@ -30,54 +35,48 @@ export const PolicySelector: FC<PolicySelectorProps> = ({ onChange }) => {
     []
   );
 
-  const stepOptions = useMemo(
-    () => currentPolicy.steps.map((s) => ({ value: s.step, label: s.label })),
-    [currentPolicy]
-  );
+  const stepOptions = useMemo(() => {
+    const availableStepOptions =
+      PHARMACY_OPTIONS.find((p) => p.protocol === protocol)?.steps ?? [];
 
-  const safeStep = useMemo(() => {
-    const exists = currentPolicy.steps.some((s) => s.step === step);
-    return exists ? step : (currentPolicy.steps[0]?.step ?? defaultStep);
-  }, [currentPolicy, step, defaultStep]);
+    if (!availableStepOptions.find((s) => s.step === step)) {
+      setStep(null);
+    }
 
-  // keep localStorage consistent if protocol changed and step no longer valid
-  if (safeStep !== step) {
-    setStep(safeStep);
-  }
+    return availableStepOptions.map((s) => ({
+      value: s.step,
+      label: s.label,
+    }));
+  }, [protocol]);
 
   return (
-    <Row>
+    <Grid>
       <Field>
-        <Label>protocol type</Label>
+        <Label>Protocol type</Label>
         <Select
+          allowClear
           value={protocol}
           options={protocolOptions}
-          onChange={(next: ProtocolType) => {
-            setProtocol(next);
-
-            const nextPolicy =
-              PROTOCOL_POLICIES.find((p) => p.protocol === next) ??
-              PROTOCOL_POLICIES[0];
-
-            const nextStep = nextPolicy.steps[0]?.step ?? defaultStep;
-            setStep(nextStep);
-
-            onChange?.({ protocol: next, step: nextStep });
-          }}
+          onChange={(p) => setProtocol(p)}
         />
       </Field>
 
       <Field>
-        <Label>step type</Label>
+        <Label>Step type</Label>
         <Select
-          value={safeStep}
+          allowClear
+          value={step}
           options={stepOptions}
-          onChange={(next: StepType) => {
-            setStep(next);
-            onChange?.({ protocol, step: next });
-          }}
+          onChange={(s) => setStep(s)}
         />
       </Field>
-    </Row>
+
+      <Button
+        type={'primary'}
+        onClick={() => setPharmacyOptionsConfirmed(true)}
+      >
+        Continue
+      </Button>
+    </Grid>
   );
 };

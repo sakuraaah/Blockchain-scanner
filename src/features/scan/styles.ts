@@ -9,4 +9,5 @@ export const Wrapper = styled.div`
 
 export const Content = styled.div`
   margin-top: 10px;
+  margin-bottom: 10px;
 `;

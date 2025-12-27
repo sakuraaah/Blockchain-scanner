@@ -1,13 +1,8 @@
 import styled from 'styled-components';
 
-export const Row = styled.div`
+export const Grid = styled.div`
   display: grid;
   gap: 12px;
-
-  @media (min-width: 520px) {
-    grid-template-columns: 1fr 1fr;
-    align-items: start;
-  }
 `;
 
 export const Field = styled.div`
@@ -16,6 +11,6 @@ export const Field = styled.div`
 `;
 
 export const Label = styled.div`
-  font-size: 12px;
+  font-size: 14px;
   opacity: 0.65;
 `;
