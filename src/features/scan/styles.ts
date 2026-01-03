@@ -6,8 +6,3 @@ export const Wrapper = styled.div`
   place-items: center;
   padding: 24px;
 `;
-
-export const Content = styled.div`
-  margin-top: 10px;
-  margin-bottom: 10px;
-`;

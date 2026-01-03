@@ -1,17 +1,16 @@
 import { useMemo } from 'react';
 import type { FC } from 'react';
 
-import { Button, Select } from 'antd';
+import { Select } from 'antd';
 
 import { useLocalStorage } from '@uidotdev/usehooks';
 
 import {
   PHARMACY_OPTIONS,
-  SELECTED_PHARMACY_OPTIONS_CONFIRMED_STORAGE_KEY,
   SELECTED_PHARMACY_PROTOCOL_STORAGE_KEY,
   SELECTED_PHARMACY_STEP_STORAGE_KEY,
 } from './constants';
-import { Field, Grid, Label } from './styles';
+import { Field, Label } from './styles';
 import type { PharmacyProtocol, PharmacyStep } from './types';
 
 export const PharmacyOptions: FC = () => {
@@ -23,11 +22,6 @@ export const PharmacyOptions: FC = () => {
   const [step, setStep] = useLocalStorage<PharmacyStep | null>(
     SELECTED_PHARMACY_STEP_STORAGE_KEY,
     null
-  );
-
-  const [_, setPharmacyOptionsConfirmed] = useLocalStorage<boolean>(
-    SELECTED_PHARMACY_OPTIONS_CONFIRMED_STORAGE_KEY,
-    false
   );
 
   const protocolOptions = useMemo(
@@ -50,7 +44,7 @@ export const PharmacyOptions: FC = () => {
   }, [protocol]);
 
   return (
-    <Grid>
+    <>
       <Field>
         <Label>Protocol type</Label>
         <Select
@@ -70,13 +64,6 @@ export const PharmacyOptions: FC = () => {
           onChange={(s) => setStep(s)}
         />
       </Field>
-
-      <Button
-        type={'primary'}
-        onClick={() => setPharmacyOptionsConfirmed(true)}
-      >
-        Continue
-      </Button>
-    </Grid>
+    </>
   );
 };

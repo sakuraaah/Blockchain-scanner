@@ -25,5 +25,3 @@ export const PHARMACY_OPTIONS: PharmacyProtocolListItem[] = [
 export const SELECTED_PHARMACY_PROTOCOL_STORAGE_KEY =
   'selected-pharmacy-protocol';
 export const SELECTED_PHARMACY_STEP_STORAGE_KEY = 'selected-pharmacy-step';
-export const SELECTED_PHARMACY_OPTIONS_CONFIRMED_STORAGE_KEY =
-  'selected-pharmacy-options-confirmed';
