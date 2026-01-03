@@ -9,6 +9,9 @@ import { Steps } from '../steps';
 import { PackageScan } from './components/package-scan';
 import { SCANNED_ITEMS_STORAGE_KEY } from './components/package-scan/constants';
 import type { PackageCode } from './components/package-scan/types';
+import { PalletScan } from './components/pallet-scan';
+import { SCANNED_PALLET_STORAGE_KEY } from './components/pallet-scan/constants';
+import type { PalletCode } from './components/pallet-scan/types';
 import { PharmacyOptions } from './components/pharmacy-options';
 import {
   SELECTED_PHARMACY_PROTOCOL_STORAGE_KEY,
@@ -33,6 +36,11 @@ export const Scan: FC = () => {
     null
   );
 
+  const [scannedPallet, setScannedPallet] = useLocalStorage<PalletCode | null>(
+    SCANNED_PALLET_STORAGE_KEY,
+    null
+  );
+
   const [scannedItems, setScannedItems] = useLocalStorage<PackageCode[]>(
     SCANNED_ITEMS_STORAGE_KEY,
     []
@@ -45,21 +53,28 @@ export const Scan: FC = () => {
         nextStepAllowed: !!protocol && !!step,
       },
       {
+        content: <PalletScan />,
+        nextStepAllowed: !!scannedPallet,
+      },
+      {
         content: <PackageScan />,
       },
     ],
-    [protocol, step]
+    [protocol, step, scannedPallet]
   );
 
   const cancelAction = {
     label: 'Cancel Scan',
-    actionAllowed: !!protocol || !!step || !!scannedItems.length,
+    actionAllowed:
+      !!protocol || !!step || !!scannedPallet || !!scannedItems.length,
     confirm: true,
     confirmText: 'This action will remove all scanned items',
     proceed: () => {
       setScannedItems([]);
       setProtocol(null);
       setStep(null);
+      setScannedPallet(null);
+
       navigate('/');
     },
   };
