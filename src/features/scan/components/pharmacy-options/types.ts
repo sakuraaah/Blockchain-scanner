@@ -1,18 +1,18 @@
 import type { FieldConfig } from '@/features/form/types';
 
 export const PharmacyProtocol = {
-  Doxazosin: 'Doxazosin / Hydrochlorothiazide tablets batch analysis',
-  Irbesartan: 'Irbesartan 150 mg tablets batch analysis',
+  Doxazosin: 1,
+  Irbesartan: 2,
 } as const;
 
 export type PharmacyProtocol =
   (typeof PharmacyProtocol)[keyof typeof PharmacyProtocol];
 
 export const PharmacyStep = {
-  QCTesting: 'Quality control testing',
-  Assay: 'Assay',
-  RelatedSubstances: 'Related Substances',
-  Dissolution: 'Dissolution',
+  QCTesting: 1,
+  Assay: 2,
+  RelatedSubstances: 3,
+  Dissolution: 4,
 } as const;
 
 export type PharmacyStep = (typeof PharmacyStep)[keyof typeof PharmacyStep];

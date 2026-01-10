@@ -9,16 +9,16 @@ import {
 export const PHARMACY_OPTIONS: PharmacyProtocolListItem[] = [
   {
     protocol: PharmacyProtocol.Doxazosin,
-    label: PharmacyProtocol.Doxazosin,
+    label: 'Doxazosin / Hydrochlorothiazide tablets batch analysis',
     steps: [
       {
         step: PharmacyStep.QCTesting,
-        label: PharmacyStep.QCTesting,
+        label: 'Quality control testing',
         additionalData: [],
       },
       {
         step: PharmacyStep.Assay,
-        label: PharmacyStep.Assay,
+        label: 'Assay',
         additionalData: [
           {
             type: FieldType.InputNumber,
@@ -38,7 +38,7 @@ export const PHARMACY_OPTIONS: PharmacyProtocolListItem[] = [
       },
       {
         step: PharmacyStep.RelatedSubstances,
-        label: PharmacyStep.RelatedSubstances,
+        label: 'Related Substances',
         additionalData: [
           {
             type: FieldType.InputNumber,
@@ -58,7 +58,7 @@ export const PHARMACY_OPTIONS: PharmacyProtocolListItem[] = [
       },
       {
         step: PharmacyStep.Dissolution,
-        label: PharmacyStep.Dissolution,
+        label: 'Dissolution',
         additionalData: [
           {
             type: FieldType.List,
@@ -98,16 +98,16 @@ export const PHARMACY_OPTIONS: PharmacyProtocolListItem[] = [
   },
   {
     protocol: PharmacyProtocol.Irbesartan,
-    label: PharmacyProtocol.Irbesartan,
+    label: 'Irbesartan 150 mg tablets batch analysis',
     steps: [
       {
         step: PharmacyStep.QCTesting,
-        label: PharmacyStep.QCTesting,
+        label: 'Quality control testing',
         additionalData: [],
       },
       {
         step: PharmacyStep.Assay,
-        label: PharmacyStep.Assay,
+        label: 'Assay',
         additionalData: [
           {
             type: FieldType.InputNumber,
@@ -120,7 +120,7 @@ export const PHARMACY_OPTIONS: PharmacyProtocolListItem[] = [
       },
       {
         step: PharmacyStep.RelatedSubstances,
-        label: PharmacyStep.RelatedSubstances,
+        label: 'Related Substances',
         additionalData: [
           {
             type: FieldType.InputNumber,
@@ -147,7 +147,7 @@ export const PHARMACY_OPTIONS: PharmacyProtocolListItem[] = [
       },
       {
         step: PharmacyStep.Dissolution,
-        label: PharmacyStep.Dissolution,
+        label: 'Dissolution',
         additionalData: [
           {
             type: FieldType.List,
