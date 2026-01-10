@@ -1,10 +1,15 @@
 import { type FC, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { useMutation } from '@tanstack/react-query';
 import { useLocalStorage } from '@uidotdev/usehooks';
 
+import { env } from '@/config/env';
+
 import { Steps } from '../steps';
+import { mutationConfig } from './api';
 import { AdditionalData } from './components/additional-data';
+import { ADDITIONAL_DATA_STORAGE_KEY } from './components/additional-data/constants';
 import { PackageScan } from './components/package-scan';
 import { SCANNED_ITEMS_STORAGE_KEY } from './components/package-scan/constants';
 import type { PackageCode } from './components/package-scan/types';
@@ -46,6 +51,10 @@ export const Scan: FC = () => {
     []
   );
 
+  const [additionalData, setAdditionalData] = useLocalStorage<
+    Record<string, unknown>
+  >(ADDITIONAL_DATA_STORAGE_KEY, {});
+
   const selectedPharmacyStep = useMemo(() => {
     const selectedPharmacyOption = PHARMACY_OPTIONS.find(
       (p) => p.protocol === protocol
@@ -85,28 +94,53 @@ export const Scan: FC = () => {
     [protocol, step, selectedPharmacyStep]
   );
 
+  const data = useMemo(
+    () => ({
+      cmoId: env.cmoId,
+      protocolType: protocol,
+      stepNumber: step,
+      packageCodes: scannedItems,
+      palletCode: scannedPallet,
+      additionalData: additionalData,
+    }),
+    [protocol, step, scannedPallet, scannedItems, additionalData]
+  );
+
+  const clearForm = () => {
+    setProtocol(null);
+    setStep(null);
+    setScannedPallet(null);
+    setScannedItems([]);
+    setAdditionalData({});
+  };
+
+  const { mutate } = useMutation(mutationConfig(data, clearForm));
+
+  const submitActionAllowed = useMemo(
+    () => !!protocol && !!step && !!scannedPallet && !!scannedItems.length,
+    [protocol, step, scannedPallet, scannedItems]
+  );
+
   const submitAction = {
     label: 'Send data',
-    actionAllowed:
-      !!protocol && !!step && !!scannedPallet && !!scannedItems.length,
+    actionAllowed: submitActionAllowed,
     confirm: true,
     confirmText: 'This action will send all entered data to blockchain',
-    proceed: () => {
-      alert(123);
-    },
+    proceed: mutate,
   };
+
+  const cancelActionAllowed = useMemo(
+    () => !!protocol || !!step || !!scannedPallet || !!scannedItems.length,
+    [protocol, step, scannedPallet, scannedItems]
+  );
 
   const cancelAction = {
     label: 'Cancel Scan',
-    actionAllowed:
-      !!protocol || !!step || !!scannedPallet || !!scannedItems.length,
+    actionAllowed: cancelActionAllowed,
     confirm: true,
     confirmText: 'This action will remove all scanned items',
     proceed: () => {
-      setScannedItems([]);
-      setProtocol(null);
-      setStep(null);
-      setScannedPallet(null);
+      clearForm();
 
       navigate('/');
     },
