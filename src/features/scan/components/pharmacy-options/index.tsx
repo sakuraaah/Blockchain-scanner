@@ -33,10 +33,6 @@ export const PharmacyOptions: FC = () => {
     const availableStepOptions =
       PHARMACY_OPTIONS.find((p) => p.protocol === protocol)?.steps ?? [];
 
-    if (!availableStepOptions.find((s) => s.step === step)) {
-      setStep(null);
-    }
-
     return availableStepOptions.map((s) => ({
       value: s.step,
       label: s.label,
@@ -48,16 +44,21 @@ export const PharmacyOptions: FC = () => {
       <Field>
         <Label>Protocol type</Label>
         <Select
+          className="w-full min-w-[0]"
           allowClear
           value={protocol}
           options={protocolOptions}
-          onChange={(p) => setProtocol(p)}
+          onChange={(p) => {
+            setStep(null);
+            setProtocol(p);
+          }}
         />
       </Field>
 
       <Field>
         <Label>Step type</Label>
         <Select
+          className="w-full min-w-[0]"
           allowClear
           value={step}
           options={stepOptions}
