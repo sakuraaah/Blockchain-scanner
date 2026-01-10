@@ -10,6 +10,7 @@ import { Hint, ScannerBox, ScannerRow } from './styles';
 import type { QrScanProps } from './types';
 
 export const QrScan = <T extends unknown>({
+  disabled,
   schema,
   onScan,
 }: QrScanProps<T>) => {
@@ -55,17 +56,17 @@ export const QrScan = <T extends unknown>({
             lastAtRef.current = 0;
             setOpen(true);
           }}
-          disabled={open}
+          disabled={disabled || open}
         >
           Scan
         </Button>
 
-        <Button onClick={() => setOpen(false)} disabled={!open}>
+        <Button onClick={() => setOpen(false)} disabled={disabled || !open}>
           Stop
         </Button>
       </ScannerRow>
 
-      {open ? (
+      {open && !disabled && (
         <ScannerBox>
           <Scanner
             onScan={handleScan}
@@ -76,7 +77,7 @@ export const QrScan = <T extends unknown>({
             constraints={{ facingMode: 'environment' }}
           />
         </ScannerBox>
-      ) : null}
+      )}
 
       <Hint>tip: qr must match expected format</Hint>
     </div>

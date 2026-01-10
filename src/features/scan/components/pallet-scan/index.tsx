@@ -25,7 +25,11 @@ export const PalletScan: FC = () => {
 
   return (
     <>
-      <QrScan<PalletCode> schema={palletCodeSchema} onScan={handleScanResult} />
+      <QrScan<PalletCode>
+        disabled={!!scannedPallet}
+        schema={palletCodeSchema}
+        onScan={handleScanResult}
+      />
 
       <Content>
         {scannedPallet && (

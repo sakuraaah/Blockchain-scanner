@@ -7,6 +7,7 @@ export type QrScanResult<T = unknown> = {
 };
 
 export type QrScanProps<T = unknown> = {
+  disabled?: boolean;
   schema: z.ZodType<T>;
   onScan: (result: QrScanResult<T>) => void;
 };
