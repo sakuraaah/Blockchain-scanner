@@ -42,7 +42,6 @@ export const Steps: FC<StepsProps> = ({
 
         {currentStepNumber + 1 < steps.length && (
           <Button
-            type={'primary'}
             onClick={increaseStep}
             disabled={!currentStep.nextStepAllowed}
           >
@@ -51,7 +50,9 @@ export const Steps: FC<StepsProps> = ({
         )}
 
         {currentStepNumber > 0 && (
-          <Button onClick={decreaseStep}>{goBackLabel}</Button>
+          <Button type={'dashed'} onClick={decreaseStep}>
+            {goBackLabel}
+          </Button>
         )}
 
         {submitAction && currentStepNumber + 1 === steps.length && (
