@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useLocalStorage } from '@uidotdev/usehooks';
 
 import { Steps } from '../steps';
+import { AdditionalData } from './components/additional-data';
 import { PackageScan } from './components/package-scan';
 import { SCANNED_ITEMS_STORAGE_KEY } from './components/package-scan/constants';
 import type { PackageCode } from './components/package-scan/types';
@@ -12,6 +13,7 @@ import { SCANNED_PALLET_STORAGE_KEY } from './components/pallet-scan/constants';
 import type { PalletCode } from './components/pallet-scan/types';
 import { PharmacyOptions } from './components/pharmacy-options';
 import {
+  PHARMACY_OPTIONS,
   SELECTED_PHARMACY_PROTOCOL_STORAGE_KEY,
   SELECTED_PHARMACY_STEP_STORAGE_KEY,
 } from './components/pharmacy-options/constants';
@@ -44,6 +46,18 @@ export const Scan: FC = () => {
     []
   );
 
+  const selectedPharmacyStep = useMemo(() => {
+    const selectedPharmacyOption = PHARMACY_OPTIONS.find(
+      (p) => p.protocol === protocol
+    );
+
+    if (!selectedPharmacyOption) {
+      return null;
+    }
+
+    return selectedPharmacyOption.steps.find((p) => p.step === step) ?? null;
+  }, [protocol, step]);
+
   const steps = useMemo(
     () => [
       {
@@ -59,9 +73,16 @@ export const Scan: FC = () => {
       {
         title: 'scan a qr code',
         content: <PackageScan />,
+        nextStepAllowed: !!protocol && !!step && !!scannedItems.length,
+      },
+      {
+        title: 'enter additional data',
+        content: (
+          <AdditionalData fields={selectedPharmacyStep?.additionalData ?? []} />
+        ),
       },
     ],
-    [protocol, step]
+    [protocol, step, selectedPharmacyStep]
   );
 
   const submitAction = {
