@@ -3,8 +3,6 @@ import { useNavigate } from 'react-router-dom';
 
 import { useLocalStorage } from '@uidotdev/usehooks';
 
-import { AppCard } from '@/ui/app-card';
-
 import { Steps } from '../steps';
 import { PackageScan } from './components/package-scan';
 import { SCANNED_ITEMS_STORAGE_KEY } from './components/package-scan/constants';
@@ -49,19 +47,33 @@ export const Scan: FC = () => {
   const steps = useMemo(
     () => [
       {
+        title: 'choose protocol and step',
         content: <PharmacyOptions />,
         nextStepAllowed: !!protocol && !!step,
       },
       {
+        title: 'scan used pallet',
         content: <PalletScan />,
-        nextStepAllowed: !!scannedPallet,
+        nextStepAllowed: !!protocol && !!step,
       },
       {
+        title: 'scan a qr code',
         content: <PackageScan />,
       },
     ],
-    [protocol, step, scannedPallet]
+    [protocol, step]
   );
+
+  const submitAction = {
+    label: 'Send data',
+    actionAllowed:
+      !!protocol && !!step && !!scannedPallet && !!scannedItems.length,
+    confirm: true,
+    confirmText: 'This action will send all entered data to blockchain',
+    proceed: () => {
+      alert(123);
+    },
+  };
 
   const cancelAction = {
     label: 'Cancel Scan',
@@ -81,9 +93,13 @@ export const Scan: FC = () => {
 
   return (
     <Wrapper>
-      <AppCard title="Scan" subtitle="scan a qr code">
-        <Steps name="pharmacy-scan" steps={steps} cancelAction={cancelAction} />
-      </AppCard>
+      <Steps
+        name="pharmacy-scan"
+        title="Scan"
+        steps={steps}
+        submitAction={submitAction}
+        cancelAction={cancelAction}
+      />
     </Wrapper>
   );
 };

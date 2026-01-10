@@ -9,15 +9,17 @@ export type Action = {
 };
 
 type Step = {
+  title?: string;
   content: ReactNode;
   nextStepAllowed?: boolean;
 };
 
 export type StepsProps = {
   name: string;
+  title: string;
   steps: Step[];
   continueLabel?: string;
   goBackLabel?: string;
-  submmitAction?: Action;
+  submitAction?: Action;
   cancelAction?: Action;
 };
