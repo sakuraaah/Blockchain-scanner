@@ -15,5 +15,5 @@ export const mutationConfig = (data: unknown, clearForm: () => void) => ({
 const stepSumit = (data: unknown) => {
   const parsedData = mapToPayload(data);
 
-  return api.post('/protocol/stepSumit', parsedData);
+  return api.post('/protocol/stepSubmit', parsedData);
 };
