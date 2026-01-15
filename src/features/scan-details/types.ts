@@ -8,8 +8,8 @@ import {
 } from '@/features/scan/components/pharmacy-options/types';
 
 export const scanDetailsRequestSchema = z.object({
-  ProtocolType: z.number().int(),
-  PalletCode: z.string().uuid(),
+  ProtocolType: pharmacyProtocolSchema,
+  PalletCode: palletCodeSchema,
 });
 
 export type ScanDetailsRequest = z.infer<typeof scanDetailsRequestSchema>;
