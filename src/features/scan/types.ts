@@ -1,12 +1,17 @@
 import { z } from 'zod';
 
+import {
+  pharmacyProtocolSchema,
+  pharmacyStepSchema,
+} from '@/features/scan/components/pharmacy-options/types';
+
 import { packageCodeSchema } from './components/package-scan/types';
 import { palletCodeSchema } from './components/pallet-scan/types';
 
 export const payloadSchema = z.object({
   cmoId: z.string().uuid(),
-  protocolType: z.number().int(),
-  stepNumber: z.number().int(),
+  protocolType: pharmacyProtocolSchema,
+  stepNumber: pharmacyStepSchema,
   packageCodes: z.array(packageCodeSchema),
   palletCode: palletCodeSchema.optional(),
   additionalData: z.string().optional(),

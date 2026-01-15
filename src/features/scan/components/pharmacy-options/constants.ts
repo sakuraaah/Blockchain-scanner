@@ -1,10 +1,18 @@
 import { FieldType } from '@/features/form/types';
 
-import {
-  PharmacyProtocol,
-  type PharmacyProtocolListItem,
-  PharmacyStep,
-} from './types';
+import { type PharmacyProtocolListItem } from './types';
+
+export const PharmacyProtocol = {
+  Doxazosin: 1,
+  Irbesartan: 2,
+} as const;
+
+export const PharmacyStep = {
+  QCTesting: 1,
+  Assay: 2,
+  RelatedSubstances: 3,
+  Dissolution: 4,
+} as const;
 
 export const PHARMACY_PROTOCOL_MAP = {
   [PharmacyProtocol.Doxazosin]:

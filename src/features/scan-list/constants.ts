@@ -1,7 +1,7 @@
 import type { TableColumnsType } from 'antd';
 
 import { PHARMACY_PROTOCOL_MAP } from '@/features/scan/components/pharmacy-options/constants';
-import type { PharmacyProtocol } from '@/features/scan/components/pharmacy-options/types';
+import type { PharmacyProtocolType } from '@/features/scan/components/pharmacy-options/types';
 
 import type { ScanListItem } from './types';
 
@@ -17,7 +17,7 @@ export const SCAN_TABLE_COLUMNS: TableColumnsType<ScanListItem> = [
   {
     title: 'Protocol',
     dataIndex: 'protocolType',
-    render: (protocolType: PharmacyProtocol) =>
+    render: (protocolType: PharmacyProtocolType) =>
       PHARMACY_PROTOCOL_MAP[protocolType],
   },
   {

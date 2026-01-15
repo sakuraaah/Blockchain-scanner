@@ -23,20 +23,20 @@ import {
   SELECTED_PHARMACY_STEP_STORAGE_KEY,
 } from './components/pharmacy-options/constants';
 import type {
-  PharmacyProtocol,
-  PharmacyStep,
+  PharmacyProtocolType,
+  PharmacyStepType,
 } from './components/pharmacy-options/types';
 import { Wrapper } from './styles';
 
 export const Scan: FC = () => {
   const navigate = useNavigate();
 
-  const [protocol, setProtocol] = useLocalStorage<PharmacyProtocol | null>(
+  const [protocol, setProtocol] = useLocalStorage<PharmacyProtocolType | null>(
     SELECTED_PHARMACY_PROTOCOL_STORAGE_KEY,
     null
   );
 
-  const [step, setStep] = useLocalStorage<PharmacyStep | null>(
+  const [step, setStep] = useLocalStorage<PharmacyStepType | null>(
     SELECTED_PHARMACY_STEP_STORAGE_KEY,
     null
   );

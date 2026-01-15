@@ -11,15 +11,15 @@ import {
   SELECTED_PHARMACY_STEP_STORAGE_KEY,
 } from './constants';
 import { Field, Label } from './styles';
-import type { PharmacyProtocol, PharmacyStep } from './types';
+import type { PharmacyProtocolType, PharmacyStepType } from './types';
 
 export const PharmacyOptions: FC = () => {
-  const [protocol, setProtocol] = useLocalStorage<PharmacyProtocol | null>(
+  const [protocol, setProtocol] = useLocalStorage<PharmacyProtocolType | null>(
     SELECTED_PHARMACY_PROTOCOL_STORAGE_KEY,
     null
   );
 
-  const [step, setStep] = useLocalStorage<PharmacyStep | null>(
+  const [step, setStep] = useLocalStorage<PharmacyStepType | null>(
     SELECTED_PHARMACY_STEP_STORAGE_KEY,
     null
   );
