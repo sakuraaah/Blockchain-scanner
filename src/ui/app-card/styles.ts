@@ -1,12 +1,13 @@
 import styled from 'styled-components';
 
 export const Wrapper = styled.div`
-  width: 100%;
-  max-width: 720px;
+  width: min(720px, calc(100vw - 48px));
+  min-width: 0;
   border-radius: 16px;
   padding: 28px;
   background: #fff;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  box-sizing: border-box;
 `;
 
 export const Header = styled.div`
