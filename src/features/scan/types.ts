@@ -8,7 +8,7 @@ import {
 import { packageCodeSchema } from './components/package-scan/types';
 import { palletCodeSchema } from './components/pallet-scan/types';
 
-export const payloadSchema = z.object({
+export const scanSubmitRequestSchema = z.object({
   cmoId: z.string().uuid(),
   protocolType: pharmacyProtocolSchema,
   stepNumber: pharmacyStepSchema,
@@ -17,4 +17,4 @@ export const payloadSchema = z.object({
   additionalData: z.string().optional(),
 });
 
-export type Payload = z.infer<typeof payloadSchema>;
+export type ScanSubmitRequest = z.infer<typeof scanSubmitRequestSchema>;

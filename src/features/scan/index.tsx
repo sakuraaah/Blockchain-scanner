@@ -7,7 +7,7 @@ import { useLocalStorage } from '@uidotdev/usehooks';
 import { env } from '@/config/env';
 
 import { Steps } from '../steps';
-import { mutationConfig } from './api';
+import { getMutationConfig } from './api';
 import { AdditionalData } from './components/additional-data';
 import { ADDITIONAL_DATA_STORAGE_KEY } from './components/additional-data/constants';
 import { PackageScan } from './components/package-scan';
@@ -94,18 +94,6 @@ export const Scan: FC = () => {
     [protocol, step, selectedPharmacyStep]
   );
 
-  const data = useMemo(
-    () => ({
-      cmoId: env.cmoId,
-      protocolType: protocol,
-      stepNumber: step,
-      packageCodes: scannedItems,
-      palletCode: scannedPallet,
-      additionalData: additionalData,
-    }),
-    [protocol, step, scannedPallet, scannedItems, additionalData]
-  );
-
   const clearForm = () => {
     setProtocol(null);
     setStep(null);
@@ -114,7 +102,23 @@ export const Scan: FC = () => {
     setAdditionalData({});
   };
 
-  const { mutate } = useMutation(mutationConfig(data, clearForm));
+  const mutationConfig = useMemo(
+    () =>
+      getMutationConfig(
+        {
+          cmoId: env.cmoId,
+          protocolType: protocol,
+          stepNumber: step,
+          packageCodes: scannedItems,
+          palletCode: scannedPallet,
+          additionalData: additionalData,
+        },
+        clearForm
+      ),
+    [protocol, step, scannedPallet, scannedItems, additionalData]
+  );
+
+  const { mutate } = useMutation(mutationConfig);
 
   const submitActionAllowed = useMemo(
     () => !!protocol && !!step && !!scannedPallet && !!scannedItems.length,
