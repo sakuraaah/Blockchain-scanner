@@ -6,19 +6,32 @@ import {
   PharmacyStep,
 } from './types';
 
+export const PHARMACY_PROTOCOL_MAP = {
+  [PharmacyProtocol.Doxazosin]:
+    'Doxazosin / Hydrochlorothiazide tablets batch analysis',
+  [PharmacyProtocol.Irbesartan]: 'Irbesartan 150 mg tablets batch analysis',
+};
+
+export const PHARMACY_STEP_MAP = {
+  [PharmacyStep.QCTesting]: 'Quality control testing',
+  [PharmacyStep.Assay]: 'Assay',
+  [PharmacyStep.RelatedSubstances]: 'Related Substances',
+  [PharmacyStep.Dissolution]: 'Dissolution',
+};
+
 export const PHARMACY_OPTIONS: PharmacyProtocolListItem[] = [
   {
     protocol: PharmacyProtocol.Doxazosin,
-    label: 'Doxazosin / Hydrochlorothiazide tablets batch analysis',
+    label: PHARMACY_PROTOCOL_MAP[PharmacyProtocol.Doxazosin],
     steps: [
       {
         step: PharmacyStep.QCTesting,
-        label: 'Quality control testing',
+        label: PHARMACY_STEP_MAP[PharmacyStep.QCTesting],
         additionalData: [],
       },
       {
         step: PharmacyStep.Assay,
-        label: 'Assay',
+        label: PHARMACY_STEP_MAP[PharmacyStep.Assay],
         additionalData: [
           {
             type: FieldType.InputNumber,
@@ -38,7 +51,7 @@ export const PHARMACY_OPTIONS: PharmacyProtocolListItem[] = [
       },
       {
         step: PharmacyStep.RelatedSubstances,
-        label: 'Related Substances',
+        label: PHARMACY_STEP_MAP[PharmacyStep.RelatedSubstances],
         additionalData: [
           {
             type: FieldType.InputNumber,
@@ -58,7 +71,7 @@ export const PHARMACY_OPTIONS: PharmacyProtocolListItem[] = [
       },
       {
         step: PharmacyStep.Dissolution,
-        label: 'Dissolution',
+        label: PHARMACY_STEP_MAP[PharmacyStep.Dissolution],
         additionalData: [
           {
             type: FieldType.List,
@@ -98,16 +111,16 @@ export const PHARMACY_OPTIONS: PharmacyProtocolListItem[] = [
   },
   {
     protocol: PharmacyProtocol.Irbesartan,
-    label: 'Irbesartan 150 mg tablets batch analysis',
+    label: PHARMACY_PROTOCOL_MAP[PharmacyProtocol.Irbesartan],
     steps: [
       {
         step: PharmacyStep.QCTesting,
-        label: 'Quality control testing',
+        label: PHARMACY_STEP_MAP[PharmacyStep.QCTesting],
         additionalData: [],
       },
       {
         step: PharmacyStep.Assay,
-        label: 'Assay',
+        label: PHARMACY_STEP_MAP[PharmacyStep.Assay],
         additionalData: [
           {
             type: FieldType.InputNumber,
@@ -120,7 +133,7 @@ export const PHARMACY_OPTIONS: PharmacyProtocolListItem[] = [
       },
       {
         step: PharmacyStep.RelatedSubstances,
-        label: 'Related Substances',
+        label: PHARMACY_STEP_MAP[PharmacyStep.RelatedSubstances],
         additionalData: [
           {
             type: FieldType.InputNumber,
@@ -147,7 +160,7 @@ export const PHARMACY_OPTIONS: PharmacyProtocolListItem[] = [
       },
       {
         step: PharmacyStep.Dissolution,
-        label: 'Dissolution',
+        label: PHARMACY_STEP_MAP[PharmacyStep.Dissolution],
         additionalData: [
           {
             type: FieldType.List,
