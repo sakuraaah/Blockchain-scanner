@@ -1,5 +1,5 @@
 export const env = {
-  appName: import.meta.env.VITE_APP_NAME,
+  appName: 'Pharmacy-scanner',
   apiUrl: import.meta.env.VITE_API_URL,
-  cmoId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+  cmoId: '1d4dba2c-da8e-4518-8bbc-83cd9052e65b',
 };
