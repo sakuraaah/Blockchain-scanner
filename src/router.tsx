@@ -6,6 +6,7 @@ import { ScanDataDetailsPage } from '@/pages/layout/data/view';
 import { MainMenuPage } from '@/pages/layout/main-menu';
 import { NotFoundPage } from '@/pages/layout/not-found';
 import { ScanPage } from '@/pages/layout/scan';
+import { ScanValidationPage } from '@/pages/layout/validate';
 
 export const router = createBrowserRouter([
   {
@@ -27,6 +28,10 @@ export const router = createBrowserRouter([
       {
         path: 'data/:palletCode/:protocolType',
         element: <ScanDataDetailsPage />,
+      },
+      {
+        path: 'validate',
+        element: <ScanValidationPage />,
       },
       {
         path: '*',
