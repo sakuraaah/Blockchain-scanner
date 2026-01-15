@@ -1,0 +1,49 @@
+import { message } from 'antd';
+
+import type { UseQueryOptions } from '@tanstack/react-query';
+import { z } from 'zod';
+
+import { api } from '@/api/axios';
+
+import {
+  type ScanDetails,
+  scanDetailsRequestSchema,
+  scanDetailsResponseSchema,
+} from './types';
+
+export const getQueryConfig = (
+  requestData: unknown
+): UseQueryOptions<ScanDetails> => ({
+  queryKey: ['protocol', 'getDetails', requestData],
+  queryFn: () => getScanDetails(requestData),
+});
+
+const getScanDetails = async (requestData: unknown) => {
+  const parsedRequestData = scanDetailsRequestSchema.safeParse(requestData);
+
+  if (!parsedRequestData.success) {
+    const error = new z.ZodError(parsedRequestData.error.issues);
+
+    console.error(error);
+    message.error('Incorrect request body');
+
+    throw error;
+  }
+
+  const response = await api.get<unknown>('/protocol/getDetails', {
+    params: parsedRequestData.data,
+  });
+
+  const parsedResponse = scanDetailsResponseSchema.safeParse(response.data);
+
+  if (!parsedResponse.success) {
+    const error = new z.ZodError(parsedResponse.error.issues);
+
+    console.error(error);
+    message.error('Incorrect response body');
+
+    throw error;
+  }
+
+  return parsedResponse.data;
+};
