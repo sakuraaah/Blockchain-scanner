@@ -6,16 +6,16 @@ import { api } from '@/api/axios';
 import { HandledError } from '@/api/handled-error';
 
 import { getJsonSafe } from './helpers';
-import { scanValidationRequestSchema } from './types';
+import {
+  scanValidationRequestSchema,
+  scanValidationResponseSchema,
+} from './types';
 
 export const getMutationConfig = (data: unknown) => ({
   mutationFn: () => validateScan(data),
-  onSuccess: () => {
-    message.success('Data was validated');
-  },
 });
 
-const validateScan = (requestData: unknown) => {
+const validateScan = async (requestData: unknown) => {
   const jsonData = getJsonSafe(requestData);
 
   if (!jsonData.success) {
@@ -38,5 +38,21 @@ const validateScan = (requestData: unknown) => {
     throw new HandledError('Incorrect request body', error);
   }
 
-  return api.post('/dataValidation/validate', parsedRequestData.data);
+  const response = await api.post(
+    '/dataValidation/validate',
+    parsedRequestData.data
+  );
+
+  const parsedResponse = scanValidationResponseSchema.safeParse(response.data);
+
+  if (!parsedResponse.success) {
+    const error = new z.ZodError(parsedResponse.error.issues);
+
+    console.error(error);
+    message.error('Incorrect response body');
+
+    throw new HandledError('Incorrect response body', error);
+  }
+
+  return parsedResponse.data;
 };
