@@ -3,6 +3,7 @@ import { message } from 'antd';
 import { z } from 'zod';
 
 import { api } from '@/api/axios';
+import { HandledError } from '@/api/handled-error';
 
 import { mapToPayloadSchema } from './helpers';
 
@@ -23,7 +24,7 @@ const stepSubmit = (requestData: unknown) => {
     console.error(error);
     message.error('Incorrect request body');
 
-    throw error;
+    throw new HandledError('Incorrect request body', error);
   }
 
   return api.post('/protocol/stepSubmit', parsedRequestData);

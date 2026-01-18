@@ -3,6 +3,7 @@ import { message } from 'antd';
 import { z } from 'zod';
 
 import { api } from '@/api/axios';
+import { HandledError } from '@/api/handled-error';
 
 import { getJsonSafe } from './helpers';
 import { scanValidationRequestSchema } from './types';
@@ -21,7 +22,7 @@ const validateScan = (requestData: unknown) => {
     console.error(jsonData.error);
     message.error('Incorrect JSON format');
 
-    throw jsonData.error;
+    throw new HandledError('Incorrect JSON format', jsonData.error);
   }
 
   const parsedRequestData = scanValidationRequestSchema.safeParse(
@@ -34,7 +35,7 @@ const validateScan = (requestData: unknown) => {
     console.error(error);
     message.error('Incorrect request body');
 
-    throw error;
+    throw new HandledError('Incorrect request body', error);
   }
 
   return api.post('/dataValidation/validate', parsedRequestData.data);

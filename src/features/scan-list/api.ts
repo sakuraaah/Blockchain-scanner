@@ -4,6 +4,7 @@ import type { UseQueryOptions } from '@tanstack/react-query';
 import { z } from 'zod';
 
 import { api } from '@/api/axios';
+import { HandledError } from '@/api/handled-error';
 
 import {
   type ScanListItem,
@@ -27,7 +28,7 @@ const getScanList = async (requestData: unknown) => {
     console.error(error);
     message.error('Incorrect request body');
 
-    throw error;
+    throw new HandledError('Incorrect request body', error);
   }
 
   const response = await api.get<unknown>('/protocol/list', {
@@ -42,7 +43,7 @@ const getScanList = async (requestData: unknown) => {
     console.error(error);
     message.error('Incorrect response body');
 
-    throw error;
+    throw new HandledError('Incorrect response body', error);
   }
 
   return parsedResponse.data;
